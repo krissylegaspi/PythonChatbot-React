@@ -4,9 +4,18 @@ const structjson = require('./structjson');
 const dialogflow = require('dialogflow');
 const config = require('../config/keys');
 
+const projectID = config.googleProjectID;
+
+const credentials = {
+    client_email: config.googleClientEmail,
+    private_key: config.googlePrivateKey
+}
+
 const sessionClient = new dialogflow.SessionsClient({
-    keyFilename: 'C:/Users/kglgs/keys/coffee-shop-abis-8355e212068d.json'
+    keyFilename: 'C:/Users/kglgs/keys/coffee-shop-abis-8355e212068d.json',
     // set GOOGLE_APPLICATION_CREDENTIALS=C:/Users/kglgs/keys/coffee-shop-abis-8355e212068d.json
+    projectID: projectID,
+    credentials: credentials
     
 });
 

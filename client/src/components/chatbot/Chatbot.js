@@ -4,6 +4,8 @@ import axios from 'axios/index';
 import Message from './Message';
 
 class Chatbot extends Component {
+    messagesEnd;
+    talkInput;
 
     constructor(props) {
         super(props);
@@ -11,7 +13,7 @@ class Chatbot extends Component {
         this._handleInputKeyPress = this._handleInputKeyPress.bind(this);
         this.state = {
             messages: []
-        }
+        };
     }
 
     async df_text_query(queryText) {
@@ -52,10 +54,16 @@ class Chatbot extends Component {
         this.df_event_query('Welcome');
     }
 
+    componentDidUpdate() {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        this.talkInput.focus();
+    }
+
     renderMessages(stateMessages) {
         if (stateMessages) {
+            console.log(stateMessages)
             return stateMessages.map((message, i) => {
-                if (message.msg.platform==="PLATFORM_UNSPECIFIED")
+                if (message.msg.platform==="PLATFORM_UNSPECIFIED" || message.speaks==="user")
                     return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />;
             });
         } else {
@@ -76,7 +84,9 @@ class Chatbot extends Component {
                 <div id="chatbot" style={{ height: '100%', width: '100%', overflow: 'auto' }}>
                     <h5>Chatbot</h5>
                     {this.renderMessages(this.state.messages)}
-                    <input type="text" onKeyPress={this._handleInputKeyPress} />
+                    <div ref={(el) => { this.messagesEnd = el; }} style={{ float: 'left', clear: "both" }}>
+                    </div>
+                    <input type="text" ref={(input) => { this.talkInput = input; }} onKeyPress={this._handleInputKeyPress} />
                 </div>
             </div>
         )

@@ -39,17 +39,32 @@ class Chatbot extends Component {
             }
         }
         this.setState({ messages: [...this.state.messages, says] });
-        
-        const res = await axios.post('/api/df_text_query', {text: queryText, userID: cookies.get('userID')});
+        try {
+            const res = await axios.post('/api/df_text_query', {text: queryText, userID: cookies.get('userID')});
 
-        for (let msg of res.data.fulfillmentMessages) {
+            for (let msg of res.data.fulfillmentMessages) {
+                says = {
+                    speaks: 'bot',
+                    msg: msg
+                }
+                this.setState({ messages: [...this.state.messages, says] });
+            }
+        } catch (e) {
             says = {
                 speaks: 'bot',
-                msg: msg
+                msg: {
+                    text: {
+                        text: "I'm having trouble connecting. I will be back later."
+                    }
+                }
             }
             this.setState({ messages: [...this.state.messages, says] });
+            let that = this;
+            setTimeout(function() {
+                that.setState({ showBot: false })
+            }, 2000);
         }
-    }
+    };
 
     async df_event_query(eventName) {
         const res = await axios.post('/api/df_event_query', {event: eventName, userID: cookies.get('userID')});
@@ -61,6 +76,14 @@ class Chatbot extends Component {
             }
             this.setState({ messages: [...this.state.messages, says] })
         }
+    };
+
+    resolveAfterXSeconds(x) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(x);
+            }, x * 1000);
+        })
     }
 
     componentDidMount() {

@@ -2,8 +2,10 @@ import React from 'react';
 
 const About = () => {
     return (
-        <div>
-            <h3>About us!</h3>
+        <div id="about">
+            <p>
+                Kristine's Coffee Shop originated as a platform to create a user interface for a chat bot.
+            </p>
         </div>
     )
 }

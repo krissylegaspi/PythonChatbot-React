@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios/index';
+import Cookies from 'universal-cookie';
+import { v4 as uuid } from 'uuid';
 
 import Message from './Message';
 
+const cookies = new Cookies();
 class Chatbot extends Component {
     messagesEnd;
     talkInput;
@@ -11,9 +14,19 @@ class Chatbot extends Component {
         super(props);
 
         this._handleInputKeyPress = this._handleInputKeyPress.bind(this);
+
+        this.hide = this.hide.bind(this);
+        this.show = this.show.bind(this);
+
         this.state = {
-            messages: []
+            messages: [],
+            showBot: true
         };
+
+        if (cookies.get('userID') === undefined) {
+            cookies.set('userID', uuid(), { path: '/' });
+        }
+        console.log(cookies.get('userID'));
     }
 
     async df_text_query(queryText) {
@@ -27,7 +40,7 @@ class Chatbot extends Component {
         }
         this.setState({ messages: [...this.state.messages, says] });
         
-        const res = await axios.post('/api/df_text_query', {text: queryText});
+        const res = await axios.post('/api/df_text_query', {text: queryText, userID: cookies.get('userID')});
 
         for (let msg of res.data.fulfillmentMessages) {
             says = {
@@ -39,7 +52,7 @@ class Chatbot extends Component {
     }
 
     async df_event_query(eventName) {
-        const res = await axios.post('/api/df_event_query', {event: eventName});
+        const res = await axios.post('/api/df_event_query', {event: eventName, userID: cookies.get('userID')});
 
         for (let msg of res.data.fulfillmentMessages) {
             let says = {
@@ -55,13 +68,27 @@ class Chatbot extends Component {
     }
 
     componentDidUpdate() {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-        this.talkInput.focus();
+        // this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        if (this.talkInput) {
+            this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+            this.talkInput.focus();
+        }
+    }
+
+    show(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.setState({ showBot: true });
+    }
+
+    hide(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.setState({ showBot: false });
     }
 
     renderMessages(stateMessages) {
         if (stateMessages) {
-            console.log(stateMessages)
             return stateMessages.map((message, i) => {
                 if (message.msg.platform==="PLATFORM_UNSPECIFIED" || message.speaks==="user")
                     return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />;
@@ -79,18 +106,45 @@ class Chatbot extends Component {
     }
     
     render() {
+        if (this.state.showBot) {
         return (
-            <div style={{ height: 500, width: '100%', float: 'left' }}>
-                <div id="chatbot" style={{ height: '100%', width: '100%', overflow: 'auto' }}>
-                    <h5>Chatbot</h5>
+            <div style={{ height: 500, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }}>
+                <nav>
+                    <div className="nav-wrapper">
+                        <a className="brand-logo">Chat Bot</a>
+                        <ul id="nav-mobile" className="right hide-on-med-and-down">
+                            <li><a href="/" onClick={this.hide}>Close</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div id="chatbot" style={{ height: 390, width: '100%', overflow: 'auto' }}>
                     {this.renderMessages(this.state.messages)}
                     <div ref={(el) => { this.messagesEnd = el; }} style={{ float: 'left', clear: "both" }}>
                     </div>
-                    <input type="text" ref={(input) => { this.talkInput = input; }} onKeyPress={this._handleInputKeyPress} />
+                </div>
+                <div className="col s12">
+                    <input style={{ margin: 0, paddingLeft: '1%', paddingRight: '1%' }} placeholder="Type a message..." type="text" ref={(input) => { this.talkInput = input; }} onKeyPress={this._handleInputKeyPress} />
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <div style={{ height: 40, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }}>
+                <nav>
+                    <div className="nav-wrapper">
+                        <a className="brand-logo">Chat Bot</a>
+                        <ul id="nav-mobile" className="right hide-on-med-and-down">
+                            <li><a href="/" onClick={this.show}>Show</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div ref={(el) => { this.messageEnd = el; }}
+                    style={{ float: 'left', clear: 'both' }}>
                 </div>
             </div>
         )
     }
+}
 }
 
 export default Chatbot;

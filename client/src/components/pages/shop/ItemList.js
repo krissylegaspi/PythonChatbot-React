@@ -1,26 +1,46 @@
 import React from 'react';
+import './ItemList.css';
 
 const ItemList = () => (
     <div>
-        <div id="menu_items" style={{ height: 650, width: 400, position: 'absolute', border: '1px solid gray' }}>
-            <center>
+        <div id="menu-items" style={{ border: '1px solid gray' }} class="row">
+
+            <div id="text" class="col s6">
             
             <h4>Drinks</h4>
-            Americano / Coffee / Cappuccino / Cocoa / Espresso / Hot Chocolate / Macchiato / Tea / Chai Tea / Matcha
+            <p>
+                Americano / Coffee / Cappuccino / Cocoa / Espresso / Hot Chocolate / Macchiato / Tea / Chai Tea / Matcha
+            </p>
 
             <h4>Milk Type</h4>
-            Almond / Coconut / Cream / Non-fat Milk / Regular Milk / Soy / Oat
+            <p>
+                Almond / Coconut / Cream / Non-fat Milk / Regular Milk / Soy / Oat
+            </p>
 
+            <h4>Size</h4>
+            <p>
+                Small / Medium / Large
+            </p>
+            
+            </div>
+
+            <div id="text" class="col s6">
             <h4>Snacks</h4>
-            Bagel / Ceasar Salad / Carrot Cake / Croissant / Danish / Deep Dish Cake / Doughnut / Greek Salad / Mediterranean Salad / Muffin / Plum Cake / Strudel
+            <p>
+                Bagel / Ceasar Salad / Carrot Cake / Croissant / Danish / Deep Dish Cake / Doughnut / Greek Salad / Mediterranean Salad / Muffin / Plum Cake / Strudel
+            </p>
 
             <h4>Flavors</h4>
-            Almond / Blueberry / Caramel / Cheese / Cream Cheese / Hazelnut / Peppermint / Raspberry / Strawberry / Sugar-free Vanilla / Vanilla
+            <p>
+                Almond / Blueberry / Caramel / Cheese / Cream Cheese / Hazelnut / Peppermint / Raspberry / Strawberry / Sugar-free Vanilla / Vanilla
+            </p>
 
             <h4>Topping</h4>
-            Caramel / Chocolate / Cinnamon / Whipped Cream
+            <p>
+                Caramel / Chocolate / Cinnamon / Whipped Cream
+            </p>
             
-            </center>
+            </div>
         </div>
     </div>
 )

@@ -1,5 +1,5 @@
 # React Chatbot
-### Technologies: React, Node.js, Express, Dialogflow, Heroku, MongoDB
+### Technologies: React, Node.js, Express, Dialogflow, Heroku, MongoDB, Postman
 
 ## Features
 

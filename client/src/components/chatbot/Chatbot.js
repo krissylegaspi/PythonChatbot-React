@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid';
 
 import Message from './Message';
 
+import './Chatbot.css';
+
 const cookies = new Cookies();
 class Chatbot extends Component {
     messagesEnd;
@@ -131,9 +133,9 @@ class Chatbot extends Component {
     render() {
         if (this.state.showBot) {
         return (
-            <div style={{ height: 500, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }}>
+            <div style={{ height: 500, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }} id="pop">
                 <nav>
-                    <div className="nav-wrapper">
+                    <div className="nav-wrapper pink lighten-2">
                         <a className="brand-logo">Chat Bot</a>
                         <ul id="nav-mobile" className="right hide-on-med-and-down">
                             <li><a href="/" onClick={this.hide}>Close</a></li>
@@ -152,9 +154,9 @@ class Chatbot extends Component {
         )
     } else {
         return (
-            <div style={{ height: 40, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }}>
+            <div style={{ height: 60, width: 400, position: 'fixed', bottom: 0, right: 50, border: '1px solid gray' }}>
                 <nav>
-                    <div className="nav-wrapper">
+                    <div className="nav-wrapper pink lighten-2">
                         <a className="brand-logo">Chat Bot</a>
                         <ul id="nav-mobile" className="right hide-on-med-and-down">
                             <li><a href="/" onClick={this.show}>Show</a></li>

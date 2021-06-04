@@ -16,4 +16,4 @@
 
 ![Overview](https://github.com/krissylegaspi/ReactChatbot/blob/main/assets/ReactChatbot1.jpg?raw=true)
 
-![Chatbot Expanded 1](https://github.com/krissylegaspi/ReactChatbot/blob/main/assets/ReactChatbot2.jpg?raw=true)
+![Chatbot Expanded 1](https://github.com/krissylegaspi/ReactChatbot/blob/main/assets/ReactChatbot4.jpg?raw=true)
